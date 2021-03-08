@@ -1,6 +1,12 @@
 from flask import Flask, render_template
+from flask import SQLAlchemy
+
 
 app=Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///shop.db'
+db=SQLAlchemy
+
+
 
 #главная страница
 @app.route('/')
