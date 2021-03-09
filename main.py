@@ -15,6 +15,8 @@ class Item(db.Model):
     isActive = db.Column(db.Boolean, default=True)  # default=True поле по умолчанию будет True
     # text = db.Column(db.Text, nullable=False)
 
+    def __repr__(self):
+        return self.title
 
 # главная страница
 @app.route('/')
