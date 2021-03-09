@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -19,7 +19,8 @@ class Item(db.Model):
 # главная страница
 @app.route('/')
 def index():
-    return render_template('index.html')
+    items= Item.query.order_by(Item.prise).all()
+    return render_template('index.html', data=items)
 
 
 # страница с информацией про магазин
@@ -31,7 +32,20 @@ def about():
 # страница для добавления товара
 @app.route('/create', methods=['POST', 'GET'])
 def create():
-    return render_template('create.html')
+    if request.method == 'POST':
+        title=request.form['title']
+        prise = request.form['prise']
+
+        item=Item(title=title, prise=prise)
+
+        try:
+            db.session.add(item)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'Получилась ошибка'
+    else:
+        return render_template('create.html')
 
 
 if __name__ == "__main__":
