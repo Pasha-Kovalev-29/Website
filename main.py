@@ -1,11 +1,16 @@
 from flask import Flask, render_template
-from flask import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///shop.db'
 db=SQLAlchemy
 
+class Item(db.Model):
+    id=db.Column(db.Integer, primary_key=True) #primaty_ket=True - поле является первичным ключем и при добавлении будет проставляться в автоматическом режиме
+    title=db.Column(db.String(100), nullable=False) #nullable=False - поле не может быть пустым
+    prise=db.Column(db.Integer, nullable=False)
+    isActive=db.Column(db.Boolean, default=True) #default=True поле по умолчанию будет True
 
 
 #главная страница
